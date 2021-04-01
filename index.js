@@ -17,9 +17,7 @@ client.connect(err => {
       juiceCollection.insertOne(req.body)
       .then(result => {
           res.send(result.insertedCount > 0)
-          // console.log(result.insertedCount);
       })
-      // console.log(req.body);
   })
   app.get('/juices',(req,res)=> {
       juiceCollection.find({})
@@ -28,7 +26,6 @@ client.connect(err => {
       })
   })
   app.get('/juices/:id',(req,res)=> {
-    //   console.log(req.params.id);
       juiceCollection.find({_id:ObjectId(req.params.id)})
       .toArray((error, documents)=> {
           res.send(documents)
@@ -40,12 +37,23 @@ client.connect(err => {
       res.send(response.ok > 0);
     })
   })
+  const orderCollection = client.db("juicerBoosters").collection("orders");
+  app.post('/order',(req,res)=> {
+    console.log(req.body);
+    const orderData = req.body;
+    orderCollection.insertOne(orderData)
+    .then(result => {
+      res.send(result.insertedCount > 0);
+    })
+  })
+  app.get('/orders',(req, res)=> {
+    orderCollection.find(req.query)
+    .toArray((err, documents)=> {
+      res.send(documents)
+    })
+  })
 //   client.close();
 });
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
 
 const port = 4000;
 app.listen(process.env.PORT || port);
