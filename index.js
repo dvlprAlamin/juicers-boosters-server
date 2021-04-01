@@ -40,6 +40,13 @@ client.connect(err => {
       res.send(response.ok > 0);
     })
   })
+  const orderCollection = client.db("juicerBoosters").collection("orders");
+  app.post('/order',(req,res)=> {
+    orderCollection.insertOne(req.body)
+    .then(result => {
+      console.log(result);
+    })
+  })
 //   client.close();
 });
 
