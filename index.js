@@ -52,7 +52,6 @@ client.connect(err => {
       res.send(documents)
     })
   })
-//   client.close();
 });
 
 const port = 4000;
